@@ -41,7 +41,17 @@
 #endif
 
 // Used to step into the debugger
-#define  DebuggerBreak()  __asm { int 3 }
+#if defined(_MSC_VER)
+	#define DebuggerBreak() __debugbreak()
+#elif defined(__GNUC__) || defined(__clang__)
+#if defined(__i386__) || defined(__x86_64__)
+	#define DebuggerBreak() __asm__ __volatile__("int3;")
+#else
+	#define DebuggerBreak() __builtin_trap()
+#endif
+#else
+	#define DebuggerBreak() ((void)0)
+#endif
 
 // C functions for external declarations that call the appropriate C++ methods
 #ifndef EXPORT
