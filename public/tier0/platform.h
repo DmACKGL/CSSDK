@@ -30,7 +30,9 @@
 
 #include "osconfig.h"
 
+#if !defined(__APPLE__)
 #include <malloc.h>			// need this for _alloca
+#endif
 #include <string.h>			// need this for memset
 
 #include "archtypes.h"
